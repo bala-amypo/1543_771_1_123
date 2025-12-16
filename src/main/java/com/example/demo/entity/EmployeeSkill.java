@@ -53,8 +53,3 @@ public class EmployeeSkill {
         return active;
     }
 }
- 
-
-
-
- 
