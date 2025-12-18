@@ -1,5 +1,5 @@
 package com.example.demo.service.impl;
-
+import org.springframework.stereotype.Service;
 import com.example.demo.model.Skill;
 import com.example.demo.repository.SkillRepository;
 import com.example.demo.service.SkillService;
