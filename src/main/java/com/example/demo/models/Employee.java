@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 import java.security.Timestamp;
-
 public class Employee {
     private Long id;
     private String fullName;

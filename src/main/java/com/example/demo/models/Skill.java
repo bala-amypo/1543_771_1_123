@@ -1,5 +1,4 @@
 package com.example.demo;
-
 public class Skill {
     private long id;
     private String name;

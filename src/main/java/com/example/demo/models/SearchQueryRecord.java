@@ -1,7 +1,5 @@
 package com.example.demo;
-
 import java.security.Timestamp;
-
 public class SearchQueryRecord {
     private long id;
     private long searcherld;

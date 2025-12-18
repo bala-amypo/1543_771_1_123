@@ -1,5 +1,4 @@
 package com.example.demo;
-
 public class EmployeeSkill {
     private long id;
     private ManyToOne employee;
