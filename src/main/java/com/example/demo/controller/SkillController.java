@@ -1,11 +1,8 @@
 package com.example.demo.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.model.Skill;
 import com.example.demo.service.SkillService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,34 +17,30 @@ public class SkillController {
     }
 
     @PostMapping
-    public ResponseEntity<Skill> createSkill(@RequestBody Skill skill) {
-        Skill createdSkill = skillService.createSkill(skill);
-        return new ResponseEntity<>(createdSkill, HttpStatus.CREATED);
+    public Skill createSkill(@RequestBody Skill skill) {
+        return skillService.createSkill(skill);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Skill> updateSkill(
+    public Skill updateSkill(
             @PathVariable Long id,
-            @RequestBody Skill skill) {
-
-        Skill updatedSkill = skillService.updateSkill(id, skill);
-        return ResponseEntity.ok(updatedSkill);
+            @RequestBody Skill skill
+    ) {
+        return skillService.updateSkill(id, skill);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Skill> getSkillById(@PathVariable Long id) {
-        Skill skill = skillService.getSkillById(id);
-        return ResponseEntity.ok(skill);
+    public Skill getSkillById(@PathVariable Long id) {
+        return skillService.getSkillById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<Skill>> getAllSkills() {
-        return ResponseEntity.ok(skillService.getAllSkills());
+    public List<Skill> getAllSkills() {
+        return skillService.getAllSkills();
     }
 
     @PutMapping("/{id}/deactivate")
-    public ResponseEntity<Void> deactivateSkill(@PathVariable Long id) {
+    public void deactivateSkill(@PathVariable Long id) {
         skillService.deactivateSkill(id);
-        return ResponseEntity.noContent().build();
     }
 }
