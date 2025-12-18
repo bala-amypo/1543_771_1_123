@@ -1,45 +1,53 @@
 package com.example.demo.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import com.example.demo.model.Skill;
 import com.example.demo.service.SkillService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/skills")
-@Tag(name = "Skills")
 public class SkillController {
 
-    private final SkillService service;
+    private final SkillService skillService;
 
-    public SkillController(SkillService service) {
-        this.service = service;
+    public SkillController(SkillService skillService) {
+        this.skillService = skillService;
     }
 
     @PostMapping
-    public Skill create(@RequestBody Skill skill) {
-        return service.createSkill(skill);
+    public ResponseEntity<Skill> createSkill(@RequestBody Skill skill) {
+        Skill createdSkill = skillService.createSkill(skill);
+        return new ResponseEntity<>(createdSkill, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Skill update(@PathVariable Long id, @RequestBody Skill skill) {
-        return service.updateSkill(id, skill);
+    public ResponseEntity<Skill> updateSkill(
+            @PathVariable Long id,
+            @RequestBody Skill skill) {
+
+        Skill updatedSkill = skillService.updateSkill(id, skill);
+        return ResponseEntity.ok(updatedSkill);
     }
 
     @GetMapping("/{id}")
-    public Skill get(@PathVariable Long id) {
-        return service.getSkillById(id);
+    public ResponseEntity<Skill> getSkillById(@PathVariable Long id) {
+        Skill skill = skillService.getSkillById(id);
+        return ResponseEntity.ok(skill);
     }
 
     @GetMapping
-    public List<Skill> list() {
-        return service.getAllSkills();
+    public ResponseEntity<List<Skill>> getAllSkills() {
+        return ResponseEntity.ok(skillService.getAllSkills());
     }
 
     @PutMapping("/{id}/deactivate")
-    public void deactivate(@PathVariable Long id) {
-        service.deactivateSkill(id);
+    public ResponseEntity<Void> deactivateSkill(@PathVariable Long id) {
+        skillService.deactivateSkill(id);
+        return ResponseEntity.noContent().build();
     }
 }
