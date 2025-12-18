@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(
     name = "skills",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "name")
-    }
+    uniqueConstraints = @UniqueConstraint(columnNames = "name")
 )
 public class Skill {
 
@@ -15,27 +13,16 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private String category;
 
-    @Column(length = 500)
     private String description;
 
     @Column(nullable = false)
     private Boolean active = true;
 
-    public Skill() {
-    }
-
-    public Skill(String name, String category, String description) {
-        this.name = name;
-        this.category = category;
-        this.description = description;
-        this.active = true;
-    }
 
     public Long getId() {
         return id;
