@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.EmployeeSearchRequest;
 import com.example.demo.model.Employee;
 import com.example.demo.model.SearchQueryRecord;
 import com.example.demo.service.SearchQueryService;
@@ -18,14 +17,13 @@ public class SearchQueryController {
         this.searchQueryService = searchQueryService;
     }
 
+    // POST /api/search/employees?skills=Java&skills=Spring&userId=1
     @PostMapping("/employees")
     public List<Employee> searchEmployees(
-            @RequestBody EmployeeSearchRequest request
+            @RequestParam List<String> skills,
+            @RequestParam Long userId
     ) {
-        return searchQueryService.searchEmployeesBySkills(
-                request.getSkills(),
-                request.getUserId()
-        );
+        return searchQueryService.searchEmployeesBySkills(skills, userId);
     }
 
     @GetMapping("/{id}")
