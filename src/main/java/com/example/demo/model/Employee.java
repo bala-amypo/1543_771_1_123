@@ -16,7 +16,7 @@ public class Employee {
 
     private String fullName;
 
-    @Column(nullable = false)
+    @Column(Nullable = false)
     private String email;
 
     private String department;
