@@ -1,12 +1,39 @@
-package com.example.demo.repository;
+package com.example.demo.controller;
 
+import com.example.demo.model.Employee;
 import com.example.demo.model.SearchQueryRecord;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.demo.service.SearchQueryService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public interface SearchQueryRecordRepository
-        extends JpaRepository<SearchQueryRecord, Long> {
+@RestController
+@RequestMapping("/api/search")
+public class SearchQueryController {
 
-    List<SearchQueryRecord> findBySearcherId(Long searcherId);
+    private final SearchQueryService searchQueryService;
+
+    public SearchQueryController(SearchQueryService searchQueryService) {
+        this.searchQueryService = searchQueryService;
+    }
+
+    @PostMapping("/employees")
+    public List<Employee> searchEmployees(
+            @RequestParam List<String> skills,
+            @RequestParam Long userId
+    ) {
+        return searchQueryService.searchEmployeesBySkills(skills, userId);
+    }
+
+    @GetMapping("/{id}")
+    public SearchQueryRecord getQuery(@PathVariable Long id) {
+        return searchQueryService.getQueryById(id);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<SearchQueryRecord> getQueriesForUser(
+            @PathVariable Long userId
+    ) {
+        return searchQueryService.getQueriesForUser(userId);
+    }
 }
