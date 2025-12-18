@@ -1,5 +1,4 @@
 package com.example.demo;
-
 public class SkillCategory {
     private long id;
     private String categoryName;
@@ -34,5 +33,4 @@ public class SkillCategory {
     public Boolean getActive() {
         return active;
     }
-
 }
