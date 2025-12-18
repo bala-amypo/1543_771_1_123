@@ -6,7 +6,7 @@ import com.example.demo.service.SkillService;
 import com.example.demo.exception.ResourceNotFoundException;
 
 import java.util.List;
-
+@Service
 public class SkillServiceImpl implements SkillService {
 
     private final SkillRepository skillRepository;
