@@ -33,9 +33,7 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
 
     @Override
     public EmployeeSkill createEmployeeSkill(EmployeeSkill employeeSkill) {
-
-        validateEmployeeSkill(employeeSkill);
-
+        validate(employeeSkill);
         return employeeSkillRepository.save(employeeSkill);
     }
 
@@ -45,7 +43,7 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
         EmployeeSkill existing = employeeSkillRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("EmployeeSkill not found"));
 
-        validateEmployeeSkill(employeeSkill);
+        validate(employeeSkill);
 
         existing.setEmployee(employeeSkill.getEmployee());
         existing.setSkill(employeeSkill.getSkill());
@@ -67,6 +65,7 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
 
     @Override
     public void deactivateEmployeeSkill(Long id) {
+
         EmployeeSkill employeeSkill = employeeSkillRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("EmployeeSkill not found"));
 
@@ -74,9 +73,11 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
         employeeSkillRepository.save(employeeSkill);
     }
 
-    private void validateEmployeeSkill(EmployeeSkill employeeSkill) {
+    // 🔐 Validation logic
+    private void validate(EmployeeSkill employeeSkill) {
 
-        if (employeeSkill.getYearsOfExperience() == null || employeeSkill.getYearsOfExperience() < 0) {
+        if (employeeSkill.getYearsOfExperience() == null ||
+                employeeSkill.getYearsOfExperience() < 0) {
             throw new IllegalArgumentException("Experience years");
         }
 
@@ -88,7 +89,7 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
                 employeeSkill.getEmployee().getId()
         ).orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
 
-        if (!employee.getActive()) {
+        if (!employee.isActive()) {
             throw new IllegalArgumentException("inactive employee");
         }
 
@@ -96,7 +97,7 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
                 employeeSkill.getSkill().getId()
         ).orElseThrow(() -> new ResourceNotFoundException("Skill not found"));
 
-        if (!skill.getActive()) {
+        if (!skill.isActive()) {
             throw new IllegalArgumentException("inactive skill");
         }
     }
