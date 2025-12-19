@@ -6,11 +6,10 @@ import java.util.List;
 
 public interface EmployeeSkillService {
 
-    EmployeeSkill create(Long employeeId, Long skillId,
-                         String proficiencyLevel, Integer yearsOfExperience);
-
-    EmployeeSkill update(Long id, Long employeeId, Long skillId,
-                         String proficiencyLevel, Integer yearsOfExperience);
+    EmployeeSkill create(Long employeeId,
+                         Long skillId,
+                         String proficiencyLevel,
+                         Integer yearsOfExperience);
 
     List<EmployeeSkill> getSkillsForEmployee(Long employeeId);
 

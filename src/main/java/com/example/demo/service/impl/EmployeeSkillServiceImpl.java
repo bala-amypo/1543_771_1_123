@@ -32,48 +32,41 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
     }
 
     @Override
-    public EmployeeSkill create(Long employeeId, Long skillId,
-                                String proficiencyLevel, Integer yearsOfExperience) {
+    public EmployeeSkill create(Long employeeId,
+                                Long skillId,
+                                String proficiencyLevel,
+                                Integer yearsOfExperience) {
+
+        if (yearsOfExperience == null || yearsOfExperience < 0) {
+            throw new IllegalArgumentException("Experience years");
+        }
+
+        if (!VALID_PROFICIENCIES.contains(proficiencyLevel)) {
+            throw new IllegalArgumentException("Invalid proficiency");
+        }
 
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
 
-        Skill skill = skillRepository.findById(skillId)
-                .orElseThrow(() -> new ResourceNotFoundException("Skill not found"));
-
-        validate(employee, skill, proficiencyLevel, yearsOfExperience);
-
-        EmployeeSkill es = new EmployeeSkill();
-        es.setEmployee(employee);
-        es.setSkill(skill);
-        es.setProficiencyLevel(proficiencyLevel);
-        es.setYearsOfExperience(yearsOfExperience);
-        es.setActive(true);
-
-        return employeeSkillRepository.save(es);
-    }
-
-    @Override
-    public EmployeeSkill update(Long id, Long employeeId, Long skillId,
-                                String proficiencyLevel, Integer yearsOfExperience) {
-
-        EmployeeSkill es = employeeSkillRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("EmployeeSkill not found"));
-
-        Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+        if (!employee.isActive()) {
+            throw new IllegalArgumentException("inactive employee");
+        }
 
         Skill skill = skillRepository.findById(skillId)
                 .orElseThrow(() -> new ResourceNotFoundException("Skill not found"));
 
-        validate(employee, skill, proficiencyLevel, yearsOfExperience);
+        if (!skill.getActive()) {
+            throw new IllegalArgumentException("inactive skill");
+        }
 
-        es.setEmployee(employee);
-        es.setSkill(skill);
-        es.setProficiencyLevel(proficiencyLevel);
-        es.setYearsOfExperience(yearsOfExperience);
+        EmployeeSkill employeeSkill = new EmployeeSkill();
+        employeeSkill.setEmployee(employee);
+        employeeSkill.setSkill(skill);
+        employeeSkill.setProficiencyLevel(proficiencyLevel);
+        employeeSkill.setYearsOfExperience(yearsOfExperience);
+        employeeSkill.setActive(true);
 
-        return employeeSkillRepository.save(es);
+        return employeeSkillRepository.save(employeeSkill);
     }
 
     @Override
@@ -93,26 +86,5 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
 
         es.setActive(false);
         employeeSkillRepository.save(es);
-    }
-
-    // 🔐 Validation
-    private void validate(Employee employee, Skill skill,
-                          String proficiencyLevel, Integer years) {
-
-        if (years == null || years < 0) {
-            throw new IllegalArgumentException("Experience years");
-        }
-
-        if (!VALID_PROFICIENCIES.contains(proficiencyLevel)) {
-            throw new IllegalArgumentException("Invalid proficiency");
-        }
-
-        if (!employee.isActive()) {
-            throw new IllegalArgumentException("inactive employee");
-        }
-
-        if (!skill.getActive()) {
-            throw new IllegalArgumentException("inactive skill");
-        }
     }
 }
