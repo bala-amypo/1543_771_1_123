@@ -17,15 +17,24 @@ public class EmployeeSkillController {
         this.employeeSkillService = employeeSkillService;
     }
 
-    // CREATE EmployeeSkill
     @PostMapping
     public EmployeeSkill create(@RequestBody Map<String, Object> payload) {
 
-        Long employeeId = Long.valueOf(payload.get("employeeId").toString());
-        Long skillId = Long.valueOf(payload.get("skillId").toString());
+        if (!payload.containsKey("employeeId")
+                || !payload.containsKey("skillId")
+                || !payload.containsKey("proficiencyLevel")
+                || !payload.containsKey("yearsOfExperience")) {
+
+            throw new IllegalArgumentException(
+                    "Required fields: employeeId, skillId, proficiencyLevel, yearsOfExperience"
+            );
+        }
+
+        Long employeeId = Long.parseLong(payload.get("employeeId").toString());
+        Long skillId = Long.parseLong(payload.get("skillId").toString());
         String proficiencyLevel = payload.get("proficiencyLevel").toString();
         Integer yearsOfExperience =
-                Integer.valueOf(payload.get("yearsOfExperience").toString());
+                Integer.parseInt(payload.get("yearsOfExperience").toString());
 
         return employeeSkillService.create(
                 employeeId,
@@ -35,39 +44,16 @@ public class EmployeeSkillController {
         );
     }
 
-    // UPDATE EmployeeSkill
-    @PutMapping("/{id}")
-    public EmployeeSkill update(@PathVariable Long id,
-                                @RequestBody Map<String, Object> payload) {
-
-        Long employeeId = Long.valueOf(payload.get("employeeId").toString());
-        Long skillId = Long.valueOf(payload.get("skillId").toString());
-        String proficiencyLevel = payload.get("proficiencyLevel").toString();
-        Integer yearsOfExperience =
-                Integer.valueOf(payload.get("yearsOfExperience").toString());
-
-        return employeeSkillService.update(
-                id,
-                employeeId,
-                skillId,
-                proficiencyLevel,
-                yearsOfExperience
-        );
-    }
-
-    // GET skills for an employee
     @GetMapping("/employee/{employeeId}")
     public List<EmployeeSkill> getByEmployee(@PathVariable Long employeeId) {
         return employeeSkillService.getSkillsForEmployee(employeeId);
     }
 
-    // GET employees by skill
     @GetMapping("/skill/{skillId}")
     public List<EmployeeSkill> getBySkill(@PathVariable Long skillId) {
         return employeeSkillService.getEmployeesBySkill(skillId);
     }
 
-    // DEACTIVATE mapping
     @PutMapping("/{id}/deactivate")
     public void deactivate(@PathVariable Long id) {
         employeeSkillService.deactivateEmployeeSkill(id);
