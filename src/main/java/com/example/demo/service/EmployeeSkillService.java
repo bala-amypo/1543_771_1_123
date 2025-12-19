@@ -1,15 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.model.EmployeeSkill;
-
 import java.util.List;
 
 public interface EmployeeSkillService {
 
-    EmployeeSkill create(Long employeeId,
-                         Long skillId,
-                         String proficiencyLevel,
-                         Integer yearsOfExperience);
+    EmployeeSkill createEmployeeSkill(EmployeeSkill employeeSkill);
+
+    EmployeeSkill updateEmployeeSkill(Long id, EmployeeSkill employeeSkill);
 
     List<EmployeeSkill> getSkillsForEmployee(Long employeeId);
 

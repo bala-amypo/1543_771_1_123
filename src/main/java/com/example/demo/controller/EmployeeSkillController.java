@@ -5,7 +5,6 @@ import com.example.demo.service.EmployeeSkillService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/employee-skills")
@@ -18,30 +17,14 @@ public class EmployeeSkillController {
     }
 
     @PostMapping
-    public EmployeeSkill create(@RequestBody Map<String, Object> payload) {
+    public EmployeeSkill create(@RequestBody EmployeeSkill employeeSkill) {
+        return employeeSkillService.createEmployeeSkill(employeeSkill);
+    }
 
-        if (!payload.containsKey("employeeId")
-                || !payload.containsKey("skillId")
-                || !payload.containsKey("proficiencyLevel")
-                || !payload.containsKey("yearsOfExperience")) {
-
-            throw new IllegalArgumentException(
-                    "Required fields: employeeId, skillId, proficiencyLevel, yearsOfExperience"
-            );
-        }
-
-        Long employeeId = Long.valueOf(payload.get("employeeId").toString());
-        Long skillId = Long.valueOf(payload.get("skillId").toString());
-        String proficiencyLevel = payload.get("proficiencyLevel").toString();
-        Integer yearsOfExperience =
-                Integer.valueOf(payload.get("yearsOfExperience").toString());
-
-        return employeeSkillService.create(
-                employeeId,
-                skillId,
-                proficiencyLevel,
-                yearsOfExperience
-        );
+    @PutMapping("/{id}")
+    public EmployeeSkill update(@PathVariable Long id,
+                                @RequestBody EmployeeSkill employeeSkill) {
+        return employeeSkillService.updateEmployeeSkill(id, employeeSkill);
     }
 
     @GetMapping("/employee/{employeeId}")
