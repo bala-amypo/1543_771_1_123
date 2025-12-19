@@ -22,54 +22,53 @@ public class EmployeeSkill {
 
     private Integer yearsOfExperience;
 
-    private Boolean active = true;
-
+    private boolean active = true;
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
     public Skill getSkill() {
         return skill;
-    }
-
-    public void setSkill(Skill skill) {
-        this.skill = skill;
     }
 
     public String getProficiencyLevel() {
         return proficiencyLevel;
     }
 
-    public void setProficiencyLevel(String proficiencyLevel) {
-        this.proficiencyLevel = proficiencyLevel;
-    }
-
     public Integer getYearsOfExperience() {
         return yearsOfExperience;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
+
+    public void setProficiencyLevel(String proficiencyLevel) {
+        this.proficiencyLevel = proficiencyLevel;
     }
 
     public void setYearsOfExperience(Integer yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 }
