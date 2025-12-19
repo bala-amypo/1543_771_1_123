@@ -89,9 +89,10 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
                 employeeSkill.getEmployee().getId()
         ).orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
 
-        if (!employee.isActive()) {
-            throw new IllegalArgumentException("inactive employee");
-        }
+      if (!skill.getActive()) {
+    throw new IllegalArgumentException("inactive skill");
+}
+
 
         Skill skill = skillRepository.findById(
                 employeeSkill.getSkill().getId()
