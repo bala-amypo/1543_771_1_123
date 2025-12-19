@@ -30,11 +30,11 @@ public class EmployeeSkillController {
             );
         }
 
-        Long employeeId = Long.parseLong(payload.get("employeeId").toString());
-        Long skillId = Long.parseLong(payload.get("skillId").toString());
+        Long employeeId = Long.valueOf(payload.get("employeeId").toString());
+        Long skillId = Long.valueOf(payload.get("skillId").toString());
         String proficiencyLevel = payload.get("proficiencyLevel").toString();
         Integer yearsOfExperience =
-                Integer.parseInt(payload.get("yearsOfExperience").toString());
+                Integer.valueOf(payload.get("yearsOfExperience").toString());
 
         return employeeSkillService.create(
                 employeeId,
