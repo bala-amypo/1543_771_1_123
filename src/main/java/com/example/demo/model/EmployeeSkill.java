@@ -19,56 +19,20 @@ public class EmployeeSkill {
     private Skill skill;
 
     private String proficiencyLevel;
-
     private Integer yearsOfExperience;
-
     private boolean active = true;
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public Employee getEmployee() { return employee; }
+    public Skill getSkill() { return skill; }
+    public String getProficiencyLevel() { return proficiencyLevel; }
+    public Integer getYearsOfExperience() { return yearsOfExperience; }
+    public boolean isActive() { return active; }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public Skill getSkill() {
-        return skill;
-    }
-
-    public String getProficiencyLevel() {
-        return proficiencyLevel;
-    }
-
-    public Integer getYearsOfExperience() {
-        return yearsOfExperience;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public void setSkill(Skill skill) {
-        this.skill = skill;
-    }
-
-    public void setProficiencyLevel(String proficiencyLevel) {
-        this.proficiencyLevel = proficiencyLevel;
-    }
-
-    public void setYearsOfExperience(Integer yearsOfExperience) {
-        this.yearsOfExperience = yearsOfExperience;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+    public void setId(Long id) { this.id = id; }
+    public void setEmployee(Employee employee) { this.employee = employee; }
+    public void setSkill(Skill skill) { this.skill = skill; }
+    public void setProficiencyLevel(String proficiencyLevel) { this.proficiencyLevel = proficiencyLevel; }
+    public void setYearsOfExperience(Integer yearsOfExperience) { this.yearsOfExperience = yearsOfExperience; }
+    public void setActive(boolean active) { this.active = active; }
 }
