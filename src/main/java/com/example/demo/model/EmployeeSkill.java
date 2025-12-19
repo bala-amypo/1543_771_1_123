@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,10 +13,12 @@ public class EmployeeSkill {
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
     private Employee employee;
 
     @ManyToOne
     @JoinColumn(name = "skill_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
     private Skill skill;
 
     private String proficiencyLevel;

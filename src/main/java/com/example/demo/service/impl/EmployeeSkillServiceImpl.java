@@ -59,14 +59,14 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
             throw new IllegalArgumentException("Skill is inactive");
         }
 
-        EmployeeSkill employeeSkill = new EmployeeSkill();
-        employeeSkill.setEmployee(employee);
-        employeeSkill.setSkill(skill);
-        employeeSkill.setProficiencyLevel(proficiencyLevel);
-        employeeSkill.setYearsOfExperience(yearsOfExperience);
-        employeeSkill.setActive(true);
+        EmployeeSkill es = new EmployeeSkill();
+        es.setEmployee(employee);
+        es.setSkill(skill);
+        es.setProficiencyLevel(proficiencyLevel);
+        es.setYearsOfExperience(yearsOfExperience);
+        es.setActive(true);
 
-        return employeeSkillRepository.save(employeeSkill);
+        return employeeSkillRepository.save(es);
     }
 
     @Override
@@ -83,10 +83,10 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
 
     @Override
     public void deactivateEmployeeSkill(Long id) {
-        EmployeeSkill employeeSkill = employeeSkillRepository.findById(id)
+        EmployeeSkill es = employeeSkillRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("EmployeeSkill not found"));
 
-        employeeSkill.setActive(false);
-        employeeSkillRepository.save(employeeSkill);
+        es.setActive(false);
+        employeeSkillRepository.save(es);
     }
 }
