@@ -1,37 +1,44 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
-@Table(name = "employees")
+@Table(
+    name = "employees",
+    uniqueConstraints = @UniqueConstraint(columnNames = "email")
+)
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String department;
 
-    @Column(name = "job_title", nullable = false)
     private String jobTitle;
 
-    @Column(nullable = false)
-    private boolean active;
+    private Boolean active = true;
 
-    public Employee() {
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
+
+    @PrePersist
+    void onCreate() {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
+
+    @PreUpdate
+    void onUpdate() {
+        this.updatedAt = new Timestamp(System.currentTimeMillis());
+    }
+
+    // -------- Getters & Setters --------
 
     public Long getId() {
         return id;
@@ -73,11 +80,19 @@ public class Employee {
         this.jobTitle = jobTitle;
     }
 
-    public boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 }
