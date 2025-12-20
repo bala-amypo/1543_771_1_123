@@ -14,4 +14,7 @@ public interface EmployeeService {
     List<Employee> getAllEmployees();
 
     void deactivateEmployee(Long id);
+
+    // 🔐 AUTH (email-based)
+    Employee loginByEmail(String email);
 }

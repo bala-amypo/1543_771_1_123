@@ -61,4 +61,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setActive(false);
         employeeRepository.save(employee);
     }
+
+    // ===============================
+    // 🔐 AUTH (EMAIL-ONLY LOGIN)
+    // ===============================
+    @Override
+    public Employee loginByEmail(String email) {
+
+        Employee employee = employeeRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Employee not found")
+                );
+
+        if (!Boolean.TRUE.equals(employee.getActive())) {
+            throw new IllegalStateException("Employee is inactive");
+        }
+
+        return employee;
+    }
 }

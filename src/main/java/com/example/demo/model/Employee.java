@@ -16,13 +16,14 @@ public class Employee {
 
     private String fullName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     private String department;
 
     private String jobTitle;
 
+    @Column(nullable = false)
     private Boolean active = true;
 
     private Timestamp createdAt;
