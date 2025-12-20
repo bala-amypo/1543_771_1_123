@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.User;
-import com.example.demo.service.AuthService;
+import com.example.demo.model.Employee;
+import com.example.demo.service.EmployeeAuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,30 +12,31 @@ import java.util.Map;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final AuthService authService;
+    private final EmployeeAuthService authService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(EmployeeAuthService authService) {
         this.authService = authService;
     }
 
     // POST /auth/register
     @PostMapping("/register")
-    public ResponseEntity<User> register(
-            @RequestBody User user) {
+    public ResponseEntity<Employee> register(
+            @RequestBody Employee employee) {
 
-        User savedUser = authService.register(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        Employee saved = authService.register(employee);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
     // POST /auth/login
     @PostMapping("/login")
-    public ResponseEntity<User> login(
+    public ResponseEntity<Employee> login(
             @RequestBody Map<String, String> payload) {
 
-        String email = payload.get("email");
-        String password = payload.get("password");
+        Employee employee = authService.login(
+                payload.get("email"),
+                payload.get("password")
+        );
 
-        User user = authService.login(email, password);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(employee);
     }
 }
