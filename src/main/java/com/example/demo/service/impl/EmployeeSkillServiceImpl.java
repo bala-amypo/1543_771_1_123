@@ -9,9 +9,11 @@ import com.example.demo.repository.EmployeeSkillRepository;
 import com.example.demo.repository.SkillRepository;
 import com.example.demo.service.EmployeeSkillService;
 import com.example.demo.util.ProficiencyValidator;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service   // ✅ FIX
 public class EmployeeSkillServiceImpl implements EmployeeSkillService {
 
     private final EmployeeSkillRepository employeeSkillRepository;
@@ -40,15 +42,12 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
         if (!emp.getActive()) {
             throw new IllegalArgumentException("inactive employee");
         }
-
         if (!skill.getActive()) {
             throw new IllegalArgumentException("inactive skill");
         }
-
         if (employeeSkill.getYearsOfExperience() < 0) {
             throw new IllegalArgumentException("Experience years");
         }
-
         if (!ProficiencyValidator.isValid(employeeSkill.getProficiencyLevel())) {
             throw new IllegalArgumentException("Invalid proficiency");
         }
@@ -59,7 +58,6 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService {
 
     @Override
     public EmployeeSkill updateEmployeeSkill(Long id, EmployeeSkill employeeSkill) {
-
         EmployeeSkill existing = employeeSkillRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("EmployeeSkill not found"));
 

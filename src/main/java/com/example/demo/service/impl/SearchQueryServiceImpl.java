@@ -6,10 +6,12 @@ import com.example.demo.model.SearchQueryRecord;
 import com.example.demo.repository.EmployeeSkillRepository;
 import com.example.demo.repository.SearchQueryRecordRepository;
 import com.example.demo.service.SearchQueryService;
+import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
+@Service   // ✅ REQUIRED — FIXES BEAN ERROR
 public class SearchQueryServiceImpl implements SearchQueryService {
 
     private final SearchQueryRecordRepository searchQueryRecordRepository;
@@ -35,20 +37,20 @@ public class SearchQueryServiceImpl implements SearchQueryService {
             throw new IllegalArgumentException("must not be empty");
         }
 
-        List<String> normalized = skills.stream()
+        List<String> normalizedSkills = skills.stream()
                 .map(s -> s.trim().toLowerCase())
                 .distinct()
                 .collect(Collectors.toList());
 
         List<Employee> employees =
                 employeeSkillRepository.findEmployeesByAllSkillNames(
-                        normalized,
-                        (long) normalized.size()
+                        normalizedSkills,
+                        (long) normalizedSkills.size()
                 );
 
         SearchQueryRecord record = new SearchQueryRecord();
         record.setSearcherId(userId);
-        record.setSkillsRequested(String.join(",", normalized));
+        record.setSkillsRequested(String.join(",", normalizedSkills));
         record.setResultsCount(employees.size());
 
         searchQueryRecordRepository.save(record);

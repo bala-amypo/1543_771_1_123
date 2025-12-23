@@ -4,9 +4,11 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Skill;
 import com.example.demo.repository.SkillRepository;
 import com.example.demo.service.SkillService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service   // ✅ FIX
 public class SkillServiceImpl implements SkillService {
 
     private final SkillRepository skillRepository;

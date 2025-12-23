@@ -4,9 +4,11 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.SkillCategory;
 import com.example.demo.repository.SkillCategoryRepository;
 import com.example.demo.service.SkillCategoryService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service   // ✅ REQUIRED — FIXES BEAN ERROR
 public class SkillCategoryServiceImpl implements SkillCategoryService {
 
     private final SkillCategoryRepository skillCategoryRepository;
@@ -45,9 +47,10 @@ public class SkillCategoryServiceImpl implements SkillCategoryService {
 
     @Override
     public void deactivateCategory(Long id) {
-        SkillCategory cat = skillCategoryRepository.findById(id)
+        SkillCategory category = skillCategoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("SkillCategory not found"));
-        cat.setActive(false);
-        skillCategoryRepository.save(cat);
+
+        category.setActive(false);
+        skillCategoryRepository.save(category);
     }
 }
