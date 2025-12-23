@@ -1,13 +1,11 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(
-    name = "employees",
-    uniqueConstraints = @UniqueConstraint(columnNames = "email")
-)
+@Table(name = "employees")
 public class Employee {
 
     @Id
@@ -16,84 +14,51 @@ public class Employee {
 
     private String fullName;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
 
     private String department;
 
     private String jobTitle;
 
-    @Column(nullable = false)
-    private Boolean active = true;
+    private Boolean active;
 
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "employee")
+    private List<EmployeeSkill> employeeSkills;
 
     @PrePersist
-    void onCreate() {
-        this.createdAt = new Timestamp(System.currentTimeMillis());
+    public void onCreate() {
+        this.active = true;
+        this.createdAt = LocalDateTime.now();
     }
 
     @PreUpdate
-    void onUpdate() {
-        this.updatedAt = new Timestamp(System.currentTimeMillis());
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 
-    // -------- Getters & Setters --------
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getFullName() {
-        return fullName;
-    }
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+    public String getJobTitle() { return jobTitle; }
+    public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
 
-    public String getEmail() {
-        return email;
-    }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
