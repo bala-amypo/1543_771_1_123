@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Employee;
+
 import java.util.List;
 
 public interface EmployeeService {
@@ -14,7 +15,4 @@ public interface EmployeeService {
     List<Employee> getAllEmployees();
 
     void deactivateEmployee(Long id);
-
-    // 🔐 AUTH (email-based)
-    Employee loginByEmail(String email);
 }
