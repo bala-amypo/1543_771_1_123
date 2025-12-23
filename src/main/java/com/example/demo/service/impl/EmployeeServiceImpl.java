@@ -4,11 +4,9 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Employee;
 import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.service.EmployeeService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
@@ -19,20 +17,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee createEmployee(Employee employee) {
-
-        employeeRepository.findByEmail(employee.getEmail())
-                .ifPresent(e -> {
-                    throw new IllegalArgumentException("Email already exists");
-                });
-
         employee.setActive(true);
         return employeeRepository.save(employee);
     }
 
     @Override
     public Employee updateEmployee(Long id, Employee employee) {
-
-        Employee existing = getEmployeeById(id);
+        Employee existing = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
 
         existing.setFullName(employee.getFullName());
         existing.setEmail(employee.getEmail());
@@ -45,38 +37,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Employee not found")
-                );
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
     }
 
     @Override
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findByActiveTrue();
+        return employeeRepository.findAll();
     }
 
     @Override
     public void deactivateEmployee(Long id) {
-        Employee employee = getEmployeeById(id);
-        employee.setActive(false);
-        employeeRepository.save(employee);
-    }
-
-    // ===============================
-    // 🔐 AUTH (EMAIL-ONLY LOGIN)
-    // ===============================
-    @Override
-    public Employee loginByEmail(String email) {
-
-        Employee employee = employeeRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Employee not found")
-                );
-
-        if (!Boolean.TRUE.equals(employee.getActive())) {
-            throw new IllegalStateException("Employee is inactive");
-        }
-
-        return employee;
+        Employee emp = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+        emp.setActive(false);
+        employeeRepository.save(emp);
     }
 }
