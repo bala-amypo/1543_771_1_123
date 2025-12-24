@@ -74,7 +74,7 @@ public class SecurityConfig {
                         "/swagger-ui.html",
                         "/v3/api-docs/**"
                 ).permitAll()
-                .anyRequest().permitAll()   // ✅ allow API calls for testing
+                .anyRequest().permitAll()   
             );
 
         return http.build();
