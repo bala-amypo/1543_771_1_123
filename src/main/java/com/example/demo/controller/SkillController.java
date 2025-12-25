@@ -8,7 +8,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/skills")
-@CrossOrigin(origins = "*")   // ✅ FIX
 public class SkillController {
 
     private final SkillService skillService;
@@ -22,6 +21,11 @@ public class SkillController {
         return skillService.createSkill(skill);
     }
 
+    @PutMapping("/{id}")
+    public Skill update(@PathVariable Long id, @RequestBody Skill skill) {
+        return skillService.updateSkill(id, skill);
+    }
+
     @GetMapping("/{id}")
     public Skill getById(@PathVariable Long id) {
         return skillService.getSkillById(id);
@@ -30,11 +34,6 @@ public class SkillController {
     @GetMapping
     public List<Skill> getAll() {
         return skillService.getAllSkills();
-    }
-
-    @PutMapping("/{id}")
-    public Skill update(@PathVariable Long id, @RequestBody Skill skill) {
-        return skillService.updateSkill(id, skill);
     }
 
     @PutMapping("/{id}/deactivate")
