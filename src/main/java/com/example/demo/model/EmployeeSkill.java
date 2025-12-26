@@ -1,64 +1,106 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.util.List;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name = "employees")
+@Table(name = "employee_skills")
 public class EmployeeSkill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fullName;
+    // 🔗 Many skills can belong to one employee
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
-    @Column(unique = true)
-    private String email;
+    // 🔗 Many employees can have one skill
+    @ManyToOne
+    @JoinColumn(name = "skill_id", nullable = false)
+    private Skill skill;
 
-    private String department;
+    // ✅ Only allowed values
+    @NotBlank
+    @Pattern(
+        regexp = "Beginner|Intermediate|Advanced|Expert",
+        message = "Proficiency level must be Beginner, Intermediate, Advanced, or Expert"
+    )
+    private String proficiencyLevel;
 
-    private String jobTitle;
+    // ✅ Must be ≥ 0
+    @Min(0)
+    private Integer yearsOfExperience;
 
-    private Boolean active;
+    // ✅ Default value = true
+    private Boolean active = true;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "employee")
-    private List<EmployeeSkill> employeeSkills;
-
-    @PrePersist
-    public void onCreate() {
-        this.active = true;
-        this.createdAt = LocalDateTime.now();
+    // 🔹 Default constructor (REQUIRED by JPA)
+    public EmployeeSkill() {
     }
 
-    @PreUpdate
-    public void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+    // 🔹 Parameterized constructor
+    public EmployeeSkill(Employee employee, Skill skill, String proficiencyLevel,
+                         Integer yearsOfExperience, Boolean active) {
+        this.employee = employee;
+        this.skill = skill;
+        this.proficiencyLevel = proficiencyLevel;
+        this.yearsOfExperience = yearsOfExperience;
+        this.active = active;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // =======================
+    // GETTERS AND SETTERS
+    // =======================
 
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getDepartment() { return department; }
-    public void setDepartment(String department) { this.department = department; }
+    public Employee getEmployee() {
+        return employee;
+    }
 
-    public String getJobTitle() { return jobTitle; }
-    public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public Skill getSkill() {
+        return skill;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
+
+    public String getProficiencyLevel() {
+        return proficiencyLevel;
+    }
+
+    public void setProficiencyLevel(String proficiencyLevel) {
+        this.proficiencyLevel = proficiencyLevel;
+    }
+
+    public Integer getYearsOfExperience() {
+        return yearsOfExperience;
+    }
+
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }
