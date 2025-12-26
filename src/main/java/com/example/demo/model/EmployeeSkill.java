@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "employees")
-public class Employee {
+public class EmployeeSkill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
